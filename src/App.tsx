@@ -23,7 +23,8 @@ export default function App() {
   return (
     <section style={{
         display: "flex",
-        width: "80%",
+        width: "90%",
+        maxWidth: "1000px",
         margin: "0 auto"
     }}>
       <Menu collapsible={false} store={store} linkAs="a" linkHrefProp="href" onLinkClick={navigate} />

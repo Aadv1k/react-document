@@ -13,28 +13,39 @@ You would likely use this with some kind of router.
 In this case we use [[https://reactrouter.com/en/main][react-router]]
 
 #+BEGIN_SRC typescript
-  import { Menu, CMS } from "react-scribe";
-
+  import { Menu, DocumentStore, Viewer } from "react-scribe";
   import { useNavigate, Routes, Route, BrowserRouter } from "react-router";
-
-  const content = new CMS();
-
-  content.register("/docs/hello", "# Hello world!");
-  content.register("/docs/example", "# Welcome to the example page");
-
-  export default function DocumentationPage() {
-      const navigate = useNavigate();
-
-      return (
-          <Menu onItemClick={navigate} />
-
-          <BrowserRouter>
-            <Routes>
-              {content.getEntries().map(entry => {
-                return <Route path={entry.url} element={<entry.Component />} />
-              })}
-            </Routes>
-          </BrowserRouter>
-      )
-  }
 #+END_SRC
+
+We first import all the stuffs. An router is not necessary, but makes sense in this setup
+
+#+BEGIN_SRC typescript
+export default function App() {
+  const navigate = useNavigate();
+  const [store, setStore] = useState(null);
+
+  useEffect(() => {
+    const newStore = new DocumentStore();
+    mockData.forEach(page => newStore.set(page));
+    setStore(newStore);
+  }, []);
+
+  return (
+    <>
+      <Menu collapsible={false} store={store} linkAs="a" linkHrefProp="href" onLinkClick={navigate} />
+      <Routes>
+        {store.getNormalized().map((page, index) => (
+          <Route key={index} path={page.url} element={<Viewer
+                                                          pages={store.getNormalized()}
+                                                          currentPage={page}
+                                                          onPrevClick={navigate}
+                                                          onNextClick={navigate}
+                                                      />} />
+        ))}
+      </Routes>
+    </>
+  );
+}
+
+#+END_SRC
+
