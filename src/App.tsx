@@ -27,7 +27,7 @@ export default function App() {
       <Menu collapsible={false} store={store} linkAs="a" linkHrefProp="href" onLinkClick={navigate} />
       <Routes>
         {store.getNormalized().map((page, index) => (
-          <Route key={index} path={page.url} element={<Viewer page={page} />} />
+          <Route key={index} path={page.url} element={<Viewer pages={store.getNormalized()} currentPage={page} />} />
         ))}
       </Routes>
     </>
