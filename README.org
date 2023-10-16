@@ -1,6 +1,6 @@
 * React Documenter
 
-An experimental react library that allows you to build documentation
+An experimental react library that allows you to build documentation using [[https://mdxjs.com/][mdx]] 
 
 *Don't use this if* you need a (fast|concise|fun) documentation solution, SSGs are much better for that
 
