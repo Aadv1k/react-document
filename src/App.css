@@ -2,6 +2,7 @@
     font-weight: bold;
     text-transform: uppercase;
     font-size: 0.9rem;
+    color: lightgray !important;
 }
 
 .ReactDocument-MenuList--open {
@@ -15,11 +16,14 @@
 
 .ReactDocument-MenuItem {
     text-decoration: none;
+    width: 100%;
+    color: gray;
 }
 
 .ReactDocument-Menu {
     padding: 1rem 1.25rem;
-
+    border: 1px solid white;
+    width: 400px;
 }
 
 .ReactDocument-MenuList {

@@ -1,6 +1,8 @@
 import React from 'react';
 import "./App.css"
 
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
+
 class DocumentStore {
   pages: Map<string, Page>;
 
@@ -30,7 +32,7 @@ store.set({
       children: [
         {
           title: "Getting Started",
-          url: "/get-started/introduction/getting-started",
+          url: "/getting-started",
           content: "<p>Getting started content</p>",
           children: [],
         },
@@ -81,27 +83,29 @@ interface Page {
 
 interface MenuItemProps {
   page: Page;
-  linkAs: string;
+  linkAs: any; // Change this type to 'any' since we use both 'Link' and 'a'
   linkHrefProp: string;
   onLinkClick: (url: string) => void;
+  collapsible: boolean;
 }
 
-function MenuItem({ page, linkAs, linkHrefProp, onLinkClick }: MenuItemProps) {
+function MenuItem({ page, linkAs, linkHrefProp, onLinkClick, collapsible }: MenuItemProps) {
   const LinkComponent = linkAs;
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = React.useState(!collapsible);
 
   let content;
 
   const linkPropObj = { [linkHrefProp]: page.url };
 
   const toggleVisibility = () => {
+    if (!collapsible) return;
     setVisible(!visible);
   };
 
   const handleLinkClick = (event) => {
     event.preventDefault();
     toggleVisibility();
-    if (onLinkClick) {
+    if (page.content) {
       onLinkClick(page.url);
     }
   };
@@ -123,7 +127,7 @@ function MenuItem({ page, linkAs, linkHrefProp, onLinkClick }: MenuItemProps) {
         <ul className={ulClasses}>
           {page.children.map((e, index) => (
             <li key={index}>
-              <MenuItem page={e} linkAs={linkAs} linkHrefProp={linkHrefProp} onLinkClick={onLinkClick} />
+              <MenuItem page={e} linkAs={Link} linkHrefProp="to" onLinkClick={onLinkClick} collapsible={collapsible} />
             </li>
           ))}
         </ul>
@@ -148,22 +152,67 @@ function MenuItem({ page, linkAs, linkHrefProp, onLinkClick }: MenuItemProps) {
 
 interface MenuProps {
   onLinkClick: (url: string) => void;
+  collapsible: boolean;
 }
 
-function Menu({ onLinkClick }: MenuProps) {
+function Menu({ onLinkClick, collapsible }: MenuProps) {
   return (
     <div className="ReactDocument-Menu">
       {store.get().map(e => (
-        <MenuItem key={e.url} page={e} linkAs="a" linkHrefProp="href" onLinkClick={onLinkClick} />
+        <MenuItem key={e.url} page={e} linkAs={Link} linkHrefProp="to" onLinkClick={onLinkClick} collapsible={collapsible} />
       ))}
     </div>
   );
 }
 
+
+interface FlatPage {
+  url: string;
+  content: string;
+}
+
+function normalize(pages: Page[]): FlatPage[] {
+  const flatPages: FlatPage[] = [];
+
+  function flatten(page: Page, parentUrl = '') {
+    const pageUrl = page.url;
+
+    if (page.content) {
+      flatPages.push({ url: pageUrl, content: page.content });
+    }
+
+    if (page.children && page.children.length > 0) {
+      for (const childPage of page.children) {
+        flatten(childPage, pageUrl);
+      }
+    }
+  }
+
+  for (const page of pages) {
+    flatten(page);
+  }
+
+  return flatPages;
+}
+
+
 function App() {
+  const flatPages = normalize(store.get());
+
   return (
-      <Menu onLinkClick={(url) =>  console.log(url)} />
-  )
+    <BrowserRouter>
+      <Menu collapsible={true} onLinkClick={(url) => console.log(url)} />
+      <Routes>
+        {flatPages.map((page, index) => (
+          <Route
+            key={index}
+            path={page.url}
+            element={<h1>{page.content}</h1>}
+          />
+        ))}
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
