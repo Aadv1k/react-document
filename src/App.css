@@ -1,0 +1,21 @@
+.ReactDocument-MenuTitle {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.ReactDocument-MenuItem {
+    text-decoration: none;
+}
+
+.ReactDocument-Menu {
+    padding: 1rem 1.25rem;
+
+}
+
+.ReactDocument-MenuList {
+    list-style: none;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+}

@@ -1,0 +1,40 @@
+* React Documenter
+
+An experimental react library that allows you to build documentation
+
+*Don't use this if* you need a (fast|concise|fun) documentation solution, SSGs are much better for that
+
+*Use this if* you require your documentation to live and share the same global state with your UI
+
+
+** Overview
+You would likely use this with some kind of router.
+
+In this case we use [[react-router][https://reactrouter.com/en/main]]
+
+#+BEGIN_SRC typescript
+  import { Menu, CMS } from "react-scribe";
+
+  import { useNavigate, Routes, Route, BrowserRouter } from "react-router";
+
+  const content = new CMS();
+
+  content.register("/docs/hello", "# Hello world!");
+  content.register("/docs/example", "# Welcome to the example page");
+
+  export default function DocumentationPage() {
+      const navigate = useNavigate();
+
+      return (
+          <Menu onItemClick={navigate} />
+
+          <BrowserRouter>
+            <Routes>
+              {content.getEntries().map(entry => {
+                return <Route path={entry.url} element={<entry.Component />} />
+              })}
+            </Routes>
+          </BrowserRouter>
+      )
+  }
+#+END_SRC
