@@ -26,13 +26,17 @@ export default function Viewer({ pages, currentPage, onPrevClick, onNextClick}: 
 
 
     return (
-        <div>
-            <Markdown>
-                {currentPage.content}
-            </Markdown>
+        <div className="ReactDocument-Viewer">
+            <div className="ReactDocument-Content">
+                <Markdown>
+                    {currentPage.content}
+                </Markdown>
+            </div>
 
-            {nborPages.prev && <button onClick={onPrevClick}>{nborPages.prev.url}</button>}
-            {nborPages.next && <button onClick={onNextClick}>{nborPages.next.url}</button>}
+            <div className="ReactDocument-ButtonGroup">
+                {nborPages.prev && <button className="ReactDocument-Button" onClick={onPrevClick}>{nborPages.prev.url}</button>}
+                {nborPages.next && <button className="ReactDocument-Button" onClick={onNextClick}>{nborPages.next.url}</button>}
+            </div>
         </div>
     );
 }

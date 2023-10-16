@@ -23,11 +23,38 @@
 .ReactDocument-Menu {
     padding: 1rem 1.25rem;
     border: 1px solid white;
-    width: 400px;
+    width: 25%;
 }
 
 .ReactDocument-MenuList {
     list-style: none;
     padding-left: 1.25rem;
     flex-direction: column;
+}
+
+.ReactDocument-Viewer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-inline: 0.75rem;
+    width: 80%;
+}
+
+.ReactDocument-ButtonGroup {
+    display: flex;
+    width: 100%;
+    gap: 0.5rem;
+}
+
+.ReactDocument-ButtonGroup button {
+    width: 50%;
+}
+
+.ReactDocument-Button {
+    color: white;
+    background: transparent;
+    padding: .5rem;
+    border: 1px solid;
+    border-radius: 2px;
+    cursor: pointer;
 }

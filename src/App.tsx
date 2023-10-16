@@ -23,13 +23,17 @@ export default function App() {
   }
 
   return (
-    <>
+    <section style={{
+        display: "flex",
+        width: "80%",
+        margin: "0 auto"
+    }}>
       <Menu collapsible={false} store={store} linkAs="a" linkHrefProp="href" onLinkClick={navigate} />
       <Routes>
         {store.getNormalized().map((page, index) => (
           <Route key={index} path={page.url} element={<Viewer pages={store.getNormalized()} currentPage={page} />} />
         ))}
       </Routes>
-    </>
+    </section>
   );
 }
