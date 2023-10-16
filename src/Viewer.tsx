@@ -34,8 +34,8 @@ export default function Viewer({ pages, currentPage, onPrevClick, onNextClick}: 
             </div>
 
             <div className="ReactDocument-ButtonGroup">
-                {nborPages.prev && <button className="ReactDocument-Button" onClick={onPrevClick}>{nborPages.prev.url}</button>}
-                {nborPages.next && <button className="ReactDocument-Button" onClick={onNextClick}>{nborPages.next.url}</button>}
+                {nborPages.prev && <button className="ReactDocument-Button" onClick={() => onPrevClick(nborPages.prev.url)}>{nborPages.prev.url}</button>}
+                {nborPages.next && <button className="ReactDocument-Button" onClick={() => onNextClick(nborPages.next.url)}>{nborPages.next.url}</button>}
             </div>
         </div>
     );

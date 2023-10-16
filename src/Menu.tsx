@@ -33,10 +33,10 @@ function MenuItem({ page, linkAs, linkHrefProp, onLinkClick, collapsible }: Menu
   if (page.children.length > 0) {
     content = (
       <>
-        <div>
+        <div className="ReactDocument-MenuItem">
           <LinkComponent
             onClick={handleLinkClick}
-            className={`ReactDocument-MenuItem ${!page.content ? 'ReactDocument-MenuTitle' : ''}`}
+            className={`${!page.content ? 'ReactDocument-MenuTitle' : ''}`}
             {...linkPropObj}
           >
             {page.title}
@@ -44,7 +44,7 @@ function MenuItem({ page, linkAs, linkHrefProp, onLinkClick, collapsible }: Menu
         </div>
         <ul className={ulClasses}>
           {page.children.map((e, index) => (
-            <li key={index}>
+            <li key={index} className="ReactDocument-MenuItem">
               <MenuItem
                 page={e}
                 linkAs={linkAs}
