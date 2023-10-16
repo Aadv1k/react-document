@@ -103,7 +103,6 @@ function MenuItem({ page, linkAs, linkHrefProp, onLinkClick, collapsible }: Menu
   };
 
   const handleLinkClick = (event) => {
-    event.preventDefault();
     toggleVisibility();
     if (page.content) {
       onLinkClick(page.url);
