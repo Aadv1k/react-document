@@ -4,6 +4,15 @@
     font-size: 0.9rem;
 }
 
+.ReactDocument-MenuList--open {
+    display: flex;
+}
+
+.ReactDocument-MenuList--close {
+    display: none;
+}
+
+
 .ReactDocument-MenuItem {
     text-decoration: none;
 }
@@ -16,6 +25,5 @@
 .ReactDocument-MenuList {
     list-style: none;
     padding-left: 1.25rem;
-    display: flex;
     flex-direction: column;
 }

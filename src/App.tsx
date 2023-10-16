@@ -18,7 +18,6 @@ class DocumentStore {
 }
 
 const store = new DocumentStore();
-
 store.set({
   title: "Get Started",
   url: "/get-started",
@@ -88,37 +87,58 @@ interface MenuItemProps {
 }
 
 function MenuItem({ page, linkAs, linkHrefProp, onLinkClick }: MenuItemProps) {
-  const LinkComponent = linkAs; 
+  const LinkComponent = linkAs;
   const [visible, setVisible] = React.useState(false);
 
   let content;
 
   const linkPropObj = { [linkHrefProp]: page.url };
 
+  const toggleVisibility = () => {
+    setVisible(!visible);
+  };
+
+  const handleLinkClick = (event) => {
+    event.preventDefault();
+    toggleVisibility();
+    if (onLinkClick) {
+      onLinkClick(page.url);
+    }
+  };
+
+  const ulClasses = `ReactDocument-MenuList ${visible ? 'ReactDocument-MenuList--open' : 'ReactDocument-MenuList--close'}`;
+
   if (page.children.length > 0) {
     content = (
       <>
         <div>
-            <LinkComponent onClick={(event) => {
-                event.preventDefault();
-                setVisible(!visible)
-                if (!page.content) return;
-                onLinkClick(page.url);
-            }} className={`ReactDocument-MenuItem ${!page.content ? "ReactDocument-MenuTitle": ""}`} {...linkPropObj}>{page.title}</LinkComponent>
+          <LinkComponent
+            onClick={handleLinkClick}
+            className={`ReactDocument-MenuItem ${!page.content ? "ReactDocument-MenuTitle" : ""}`}
+            {...linkPropObj}
+          >
+            {page.title}
+          </LinkComponent>
         </div>
-        <ul className="ReactDocument-MenuList" style={{
-            display: visible ? "block" : "none"
-        }}>
+        <ul className={ulClasses}>
           {page.children.map((e, index) => (
             <li key={index}>
-              <MenuItem page={e} linkAs={linkAs} linkHrefProp={linkHrefProp} />
+              <MenuItem page={e} linkAs={linkAs} linkHrefProp={linkHrefProp} onLinkClick={onLinkClick} />
             </li>
           ))}
         </ul>
       </>
     );
   } else if (page.content) {
-    content = <LinkComponent className="ReactDocument-MenuItem" {...linkPropObj}>{page.title} -- No children, only content</LinkComponent>;
+    content = (
+      <LinkComponent
+        onClick={handleLinkClick}
+        className="ReactDocument-MenuItem"
+        {...linkPropObj}
+      >
+        {page.title} -- No children, only content
+      </LinkComponent>
+    );
   } else {
     content = null;
   }
@@ -130,11 +150,11 @@ interface MenuProps {
   onLinkClick: (url: string) => void;
 }
 
-function Menu() {
+function Menu({ onLinkClick }: MenuProps) {
   return (
     <div className="ReactDocument-Menu">
       {store.get().map(e => (
-        <MenuItem key={e.url} page={e} linkAs="a" linkHrefProp="href" />
+        <MenuItem key={e.url} page={e} linkAs="a" linkHrefProp="href" onLinkClick={onLinkClick} />
       ))}
     </div>
   );
