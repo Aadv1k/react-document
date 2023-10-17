@@ -3,44 +3,86 @@
 An experimental react library that allows you to build documentation using [[https://mdxjs.com/][mdx]] 
 
 *Don't use this if* you need a (fast|concise|fun) documentation solution, SSGs are much better for that
-
 *Use this if* you require your documentation to live and share the same global state with your UI
 
+** Components
 
-** Overview
-You would likely use this with some kind of router.
+*** Menu
 
-In this case we use [[https://reactrouter.com/en/main][react-router]]
+A nestable side-bar menu
+
+- ~collapsible: boolean~: defines if clicking on a parent entry collapses its children
+- ~store: DocumentStore~: defines the content for the menu to render
+- ~linkAs: string | React.Node~: pass a component or a tag to be used as the link eg ~a~ or ~<Link />~
+- ~linkHrefProp: string~: the "href" prop on the component, eg ~href~ or ~to~
+- ~onLinkClick: (url: string) => void~: defines what to do when a link is clicked
+ 
+*** Viewer
+
+The viewer component with adjacent neighbour nav
+
+- ~pages: Array<FlatPage>~: an array of ~{ url: string, content: string }~
+- ~currentPage: FlatPage~: the current page, it will be used to determine neighbour navigation
+- ~onPrevClick: (url: string) => void~: when clicking the "previous page"
+- ~onNextClick: (url: string) => void~: when clicking the "next page"
+
+*** DocumentStore
+
+This is a NOT a component but a class used to store the content
+
+- ~DocumentStore.get()~: returns an ~Array<Page>~
+- ~DocumentStore.getNormalized()~: flattens all the ~Page~ and children into a 1D array of ~FlatPage~
+- ~DocumentStore.set(Page)~: set's a page with it's corresponding url into the map
+
+** Styling
+
+A documentation is made up of several component and each must be styled separately  
+
+#+CAPTION: A guide for all the CSS classes for the document
+#+ATTR_HTML: :width 250px
+[[./public/css-guide-react-document.png]]
+
+** Example
+
+Here is an example of how you would use this with [[https://reactrouter.com/en/main][react-router]]
 
 #+BEGIN_SRC typescript
-  import { Menu, DocumentStore, Viewer } from "react-scribe";
-  import { useNavigate, Routes, Route, BrowserRouter } from "react-router";
-#+END_SRC
+import { Menu, DocumentStore, Viewer } from "react-scribe";
+import { useNavigate, Routes, Route, BrowserRouter } from "react-router";
 
-We first import all the stuffs. An router is not necessary, but makes sense in this setup
-
-#+BEGIN_SRC typescript
 export default function App() {
   const navigate = useNavigate();
   const [store, setStore] = useState(null);
 
   useEffect(() => {
     const newStore = new DocumentStore();
-    mockData.forEach(page => newStore.set(page));
+    mockData.forEach((page) => newStore.set(page));
     setStore(newStore);
   }, []);
 
   return (
     <>
-      <Menu collapsible={false} store={store} linkAs="a" linkHrefProp="href" onLinkClick={navigate} />
+      <Menu
+        collapsible={false}
+        store={store}
+        linkAs="a"
+        linkHrefProp="href"
+        onLinkClick={navigate}
+      />
       <Routes>
         {store.getNormalized().map((page, index) => (
-          <Route key={index} path={page.url} element={<Viewer
-                                                          pages={store.getNormalized()}
-                                                          currentPage={page}
-                                                          onPrevClick={navigate}
-                                                          onNextClick={navigate}
-                                                      />} />
+          <Route
+            key={index}
+            path={page.url}
+            element={
+              <Viewer
+                pages={store.getNormalized()}
+                currentPage={page}
+                onPrevClick={navigate}
+                onNextClick={navigate}
+              />
+            }
+          />
         ))}
       </Routes>
     </>
