@@ -1,6 +1,6 @@
 * React Documenter
 
-An experimental react library that allows you to build documentation using in-line markdown
+React components for building documentation
 
 *Don't use this if* you need a (fast|concise|fun) documentation solution, SSGs are much better for that
 *Use this if* you require your documentation to live and share the same global state with your UI

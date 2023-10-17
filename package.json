@@ -6,6 +6,14 @@
     "README.org",
     "LICENSE"
   ],
+  "keywords": [
+    "headless UI",
+    "documentation",
+    "docs",
+    "react",
+    "components"
+  ],
+  "author": "Aadvik <aadv1k@outlook.com>",
   "version": "1.0.0",
   "license": "MIT",
   "type": "module",
