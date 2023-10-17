@@ -1,6 +1,6 @@
 import { Page } from "./DocumentStore";
 
-const mockData: Page = [
+const mockData: Page[] = [
   {
     title: "Getting Started",
     url: "/documentation/getting-started",
