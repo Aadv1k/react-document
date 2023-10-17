@@ -29,16 +29,14 @@ export default class DocumentStore {
   getNormalized(): FlatPage[] {
     const flatPages: FlatPage[] = [];
 
-    function flatten(page: Page, parentUrl = '') {
-      const pageUrl = page.url;
-
+    function flatten(page: Page) {
       if (page.content) {
-        flatPages.push({ url: pageUrl, content: page.content });
+        flatPages.push({ url: page.url, content: page.content });
       }
 
       if (page.children && page.children.length > 0) {
         for (const childPage of page.children) {
-          flatten(childPage, pageUrl);
+          flatten(childPage);
         }
       }
     }

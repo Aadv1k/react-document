@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Page } from './DocumentStore';
+import { useEffect, useState } from 'react';
+import { Page } from '../DocumentStore';
 import Markdown from 'react-markdown'
 
-interface ViewerProps {
+export interface ViewerProps {
   pages: Array<Page>;
   currentPage: Page;
   onPrevClick: (url: string) => void;
@@ -11,7 +11,10 @@ interface ViewerProps {
  
 
 export default function Viewer({ pages, currentPage, onPrevClick, onNextClick}: ViewerProps) {
-    const [nborPages, setNborPages] = useState({
+    const [nborPages, setNborPages] = useState<{
+        next: Page | null,
+        prev: Page | null,
+    }>({
         next: null,
         prev: null
     })
@@ -34,8 +37,23 @@ export default function Viewer({ pages, currentPage, onPrevClick, onNextClick}: 
             </div>
 
             <div className="ReactDocument-ButtonGroup">
-                {nborPages.prev && <button className="ReactDocument-Button" onClick={() => onPrevClick(nborPages.prev.url)}>{nborPages.prev.url}</button>}
-                {nborPages.next && <button className="ReactDocument-Button" onClick={() => onNextClick(nborPages.next.url)}>{nborPages.next.url}</button>}
+                {nborPages.prev && (
+                    <button
+                        className="ReactDocument-Button"
+                        onClick={() => onPrevClick(nborPages.prev!.url)}
+                    >
+                        {nborPages.prev.url}
+                    </button>
+                )}
+
+                {nborPages.next && (
+                    <button
+                        className="ReactDocument-Button"
+                        onClick={() => onNextClick(nborPages.next!.url)}
+                    >
+                        {nborPages.next.url}
+                    </button>
+                )}
             </div>
         </div>
     );

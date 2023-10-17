@@ -1,12 +1,20 @@
 import React from 'react';
-import { DocumentStore, Page } from './DocumentStore';
+import { default as DocumentStore, Page } from '../DocumentStore';
 
-interface MenuItemProps {
+export interface MenuItemProps {
   page: Page;
   linkAs: any;
   linkHrefProp: string;
   onLinkClick: (url: string) => void;
   collapsible: boolean;
+}
+
+export interface MenuProps {
+  onLinkClick: (url: string) => void;
+  collapsible: boolean;
+  store: DocumentStore;
+  linkAs: any;
+  linkHrefProp: string;
 }
 
 function MenuItem({ page, linkAs, linkHrefProp, onLinkClick, collapsible }: MenuItemProps) {
@@ -22,7 +30,7 @@ function MenuItem({ page, linkAs, linkHrefProp, onLinkClick, collapsible }: Menu
     setVisible(!visible);
   };
 
-  const handleLinkClick = (event) => {
+    const handleLinkClick = (event: any) => {
     event.preventDefault();
     onLinkClick(page.url);
     toggleVisibility();
@@ -74,18 +82,11 @@ function MenuItem({ page, linkAs, linkHrefProp, onLinkClick, collapsible }: Menu
   return <div>{content}</div>;
 }
 
-interface MenuProps {
-  onLinkClick: (url: string) => void;
-  collapsible: boolean;
-  store: DocumentStore;
-  linkAs: any;
-  linkHrefProp: string;
-}
 
 export default function Menu({ onLinkClick, collapsible, store, linkAs, linkHrefProp }: MenuProps) {
   return (
     <div className="ReactDocument-Menu">
-      {store.get().map(e => (
+     {store.get().map((e: Page) => (
         <MenuItem
           key={e.url}
           page={e}

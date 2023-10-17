@@ -1,3 +1,5 @@
+import { Page } from "./DocumentStore";
+
 const mockData: Page = [
   {
     title: "Getting Started",
