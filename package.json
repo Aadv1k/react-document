@@ -1,11 +1,12 @@
 {
   "name": "react-documenter",
-  "private": true,
+  "private": false,
   "files": [
     "dist/",
     "README.org",
     "LICENSE"
   ],
+  "main": "./dist/react-documenter.js",
   "keywords": [
     "headless UI",
     "documentation",

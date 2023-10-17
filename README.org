@@ -1,38 +1,44 @@
 * React Documenter
 
-React components for building documentation
+  React Components for Building Documentation
 
-*Don't use this if* you need a (fast|concise|fun) documentation solution, SSGs are much better for that
-*Use this if* you require your documentation to live and share the same global state with your UI
+  - **Don't Use This If:** You need a fast, concise, or fun documentation solution. Static Site Generators (SSGs) are more suitable for such cases.
+
+  - **Use This If:** You require your documentation to seamlessly coexist with and share the same global state as your UI.
+
+#+CAPTION: A guide for all the CSS classes for the document
+#+ATTR_HTML: :width 250px
+[[./public/preview.gif]]
+   
 
 ** Components
 
 *** Menu
 
-A nestable side-bar menu
+  A Nestable Sidebar Menu
 
-- ~collapsible: boolean~: defines if clicking on a parent entry collapses its children
-- ~store: DocumentStore~: defines the content for the menu to render
-- ~linkAs: string | React.Node~: pass a component or a tag to be used as the link eg ~a~ or ~<Link />~
-- ~linkHrefProp: string~: the "href" prop on the component, eg ~href~ or ~to~
-- ~onLinkClick: (url: string) => void~: defines what to do when a link is clicked
- 
+  - `collapsible`: (Boolean) Defines if clicking on a parent entry collapses its children.
+  - `store`: (DocumentStore) Defines the content for the menu to render.
+  - `linkAs`: (String | React Node) Pass a component or a tag to be used as the link, e.g., `a` or `<Link />`.
+  - `linkHrefProp`: (String) The prop representing the "href" on the link component, e.g., `href` or `to`.
+  - `onLinkClick`: `(url: string) => void` Defines what to do when a link is clicked.
+
 *** Viewer
 
-The viewer component with adjacent neighbour nav
+  The Viewer Component with Adjacent Neighbor Navigation
 
-- ~pages: Array<FlatPage>~: an array of ~{ url: string, content: string }~
-- ~currentPage: FlatPage~: the current page, it will be used to determine neighbour navigation
-- ~onPrevClick: (url: string) => void~: when clicking the "previous page"
-- ~onNextClick: (url: string) => void~: when clicking the "next page"
+  - `pages`: (Array<FlatPage>) An array of `{ url: string, content: string }`.
+  - `currentPage`: (FlatPage) The current page, used to determine neighbor navigation.
+  - `onPrevClick`: `(url: string) => void` Invoked when clicking the "previous page."
+  - `onNextClick`: `(url: string) => void` Invoked when clicking the "next page."
 
 *** DocumentStore
 
-This is a NOT a component but a class used to store the content
+  **(Not a Component)** - A Class Used to Store Content
 
-- ~DocumentStore.get()~: returns an ~Array<Page>~
-- ~DocumentStore.getNormalized()~: flattens all the ~Page~ and children into a 1D array of ~FlatPage~
-- ~DocumentStore.set(Page)~: set's a page with it's corresponding url into the map
+  - `DocumentStore.get()`: Returns an `Array<Page>`.
+  - `DocumentStore.getNormalized()`: Flattens all `Page` and their children into a 1D array of `FlatPage`.
+  - `DocumentStore.set(Page)`: Sets a page with its corresponding URL into the map.
 
 ** Styling
 
@@ -46,9 +52,13 @@ A documentation is made up of several component and each must be styled separate
 
 Here is an example of how you would use this with [[https://reactrouter.com/en/main][react-router]]
 
+You can also checkout this as a working example with styles in [[./example/src][example/]]
+
 #+BEGIN_SRC typescript
   import { Menu, DocumentStore, Viewer, mockData } from "react-scribe";
-  import { useNavigate, Routes, Route, BrowserRouter } from "react-router";
+  import { useNavigate, Routes, Route } from "react-router";
+
+  import "./App.css"
 
   export default function App() {
     const navigate = useNavigate();
